@@ -1603,7 +1603,6 @@ let data = [
     "probable",
     "produce",
     "productive",
-    "profit",
     "profuse",
     "program",
     "promise",

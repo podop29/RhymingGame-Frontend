@@ -4,7 +4,15 @@ import RhymingApi from '../rhymingApi';
 
 import DifficultyBtn from './difficultyBtn';
 
-function Game() {
+function Game({time, difficultyParam}) {
+
+    //state for timer
+    const [timer, setTimer] = useState(time);
+    //state for checking if game is active or over
+    const [gameOver, setGameOver] = useState(false);
+    //State for timerId for clearing interval
+    const [timeId, setTimeId] = useState(0)
+
 
     //Tracks chosen difficulty
     const [difficulty, setDifficulty] = useState(null)
@@ -23,6 +31,16 @@ function Game() {
 
 
     const [formData, setFormData] = useState("")
+
+    //useEffect if difficultyParam is not null, call handle difficulty
+    useEffect(()=>{
+        const func = async() =>{
+            if(difficultyParam !== null){
+                await handleDifficulty(difficultyParam)
+             }
+        }
+        func();
+    },[])
     
 
     //UseEffect hook gets new rhyme words
@@ -35,9 +53,10 @@ function Game() {
         }  
     },[difficulty, wordIdx, randomWords])
 
+    //useEffect hook for updating score
     useEffect(()=>{
                     //Updates Score
-                    if(correctWords.length > 1){
+                    if(correctWords.length >= 1){
                     let word = correctWords[correctWords.length - 1]
                     if(word.score){
                         setGameScore(Math.floor((word.score / 10) + gameScore) + 10)
@@ -45,6 +64,8 @@ function Game() {
                     }
                 }
     },[correctWords])
+
+
 
 
     //Will check if player input is included in rhymeWords
@@ -70,6 +91,24 @@ function Game() {
     }
 
 
+    //Function for starting the timer at the start of the game
+    const handleTimer = () =>{
+         setTimeId (setInterval(()=>{
+            setTimer(timer => timer - 1)
+        },1000))
+    }
+    //Function for ending the game when the timer goes to 0
+    const endGame = () =>{
+        setGameOver(true);
+    }
+    //UseEffect stops timer at 0 and ends game
+    useEffect(()=>{
+        if(timer <= 0){
+            clearInterval(timeId)
+            endGame()
+        }
+    },[timer])
+
 
     //Updates state responsible for showing a random word, and creates a list of words that rhyme with it
     const updateWordIdx =async (e) =>{
@@ -83,16 +122,9 @@ function Game() {
         setDifficulty(diff)
         setRandomWords(await RhymingApi.getListOfRandomWords(40,diff))  
         setRhymeWords(await RhymingApi.getRhymesForWord(randomWords[wordIdx]))
-        
+        handleTimer(time)
     }
-    //Turns difficulty number into word, Example 1 = easy, 2 = medium, 3 = hard
-    const diffToWord = (diff) =>{
-        let word = ''
-        if(diff === 1) word = "Easy"
-        if(diff === 2) word = "Medium"
-        if(diff === 3) word = "Hard"
-        return word
-    }
+  
 
     //handles score+ popup
     const handlePopUp = () =>{
@@ -103,18 +135,19 @@ function Game() {
     }
 
     return(
-    <div className='container flex flex-row w-full h-4/6 mx-auto mt-20 md:w-6/12 justify-center rounded bg-slate-100
+    <div className='container flex flex-row w-full h-4/6 mx-auto mt-32 md:w-7/12 justify-center bg-slate-100
      shadow-lg rounded-3xl
     '>
-
+        {!gameOver ? 
+       <>
         {difficulty ?
          <div className='grid grid-rows-4 gap-0 place-items-center'>
             <span>
-                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-28 -ml-20  absolute' >Time:</h1>
-                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-36 -ml-20 absolute' >Score:{gameScore}
+                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-40 -ml-20  absolute' >Time:{timer}</h1>
+                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-48 -ml-20 absolute' >Score:{gameScore}
                  <span
                   className={`text-green-500 ${isScoreVisible}`}>
-                    {correctWords.length > 1 ? ` + ${Math.floor(correctWords[correctWords.length - 1].score / 10)}`  : `+ 0` }
+                    {correctWords.length >= 1 ? ` + ${Math.floor(correctWords[correctWords.length - 1].score / 10)}`  : `+ 0` }
                  </span>
                 </h1>
             </span>
@@ -145,7 +178,14 @@ function Game() {
         
 
          : <DifficultyBtn handleDifficulty={handleDifficulty}/>}
-       
+</>
+         
+       : <div className='grid grid-rows-4 place-items-center'>
+            <h1 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Game Over</h1>
+            <h2 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Your Final Score : {gameScore}</h2>
+         </div>
+       } 
+
 
     </div>
     )

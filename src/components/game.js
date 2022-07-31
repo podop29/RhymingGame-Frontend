@@ -136,7 +136,7 @@ function Game({time, difficultyParam}) {
 
     return(
     <div className='container flex flex-row w-full h-4/6 mx-auto mt-32 md:w-7/12 justify-center bg-slate-100
-     shadow-lg rounded-3xl
+     shadow-lg shadow-indigo-300 rounded-3xl
     '>
         {!gameOver ? 
        <>

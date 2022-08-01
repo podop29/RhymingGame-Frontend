@@ -7,6 +7,8 @@ import Game from './components/game'
 import Home from './components/home'
 import NavBar from './components/navbar';
 import Login from "./components/login";
+import Register from "./components/register";
+import Profile from "./components/profile";
 import React from "react";
 
 
@@ -14,12 +16,14 @@ function App() {
 
   //State for storing user JWT token
 const [token, setToken] = useState(localStorage.getItem('token'));
-
+const [username, setUsername] = useState(localStorage.getItem('username'))
 
 //Function that handles login logic
 const handleLogin = (userData) =>{
   BackendApi.login(userData).then((json)=>{
     setToken(json.token)
+    setUsername(json.username)
+
     BackendApi.token = token;
     localStorage.setItem('token', json.token);
     localStorage.setItem('username', userData.username);
@@ -28,13 +32,13 @@ const handleLogin = (userData) =>{
   })
 }
 
+
+
 const logout = () =>{
   localStorage.clear();
   setToken(null);
   BackendApi.token = null;
 }
-
-
 
   return (
     <div className="w-screen h-screen mt-0 p-0 absolute bg-slate-200 ">
@@ -43,14 +47,20 @@ const logout = () =>{
 
       <BrowserRouter>
       
-      <NavBar token={token} logout={logout}/>
+      <NavBar token={token} logout={logout} username={username}/>
 
         <Routes>
-          <Route exact path='/' element={<Home/>}/>
+          <Route exact path='/' element={<Home token={token}/>}/>
 
-          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null}/>}/>
+          <Route exact path='/practice-game' element={<Game time={10} difficultyParam={null} username={username}/>}/>
 
           <Route exact path='/login' element={<Login login={handleLogin}/>}/>
+
+          <Route exact path='/register' element={<Register login={handleLogin}/>}/>
+
+          <Route  path={`/profile/${username}`} element={<Profile username={username}/>}/>
+
+
 
 
         </Routes>

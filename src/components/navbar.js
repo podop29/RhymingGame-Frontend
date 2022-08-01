@@ -3,7 +3,7 @@ import hamburger from "../pics/icons8-hamburger-64.png"
 import {useState} from 'react'
  
 
-function NavBar({token, logout}) {
+function NavBar({token, logout, username}) {
     const [openMenu, setOpenMenu] = useState(false)
     const [atr, setAtr] = useState("absolute opacity-0")
 
@@ -40,18 +40,29 @@ function NavBar({token, logout}) {
                     <a href="/practice-game" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Practice Game</a>
                 </li>
                 {token ?
+                <>
+                <li className="mx-4 my-6 md:my-0 ">
+                    <a href={`/profile/${username}`} className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Profile</a>
+                </li>
                 <li className="mx-4 my-6 md:my-0 ">
                     <a href="/" onClick={logout} className="text-xl text-white hover:text-teal duration-500 cursor-pointer">logout</a>
-                </li>     
+                </li>  
+                </>
                 : 
+                <>
                 <li className="mx-4 my-6 md:my-0 ">
                     <a href="/login" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Login</a>
                 </li>
+                <a href="/register">
+                    <button className="bg-white text-indigo-400 duration-500 px-6 mx-4 py-2 rounded-md hover:bg-indigo-700 hover:text-white ">
+                        Sign Up
+                    </button>
+                </a>
+                </>
+
                 }
                 
-                <button className="bg-white text-indigo-400 duration-500 px-6 mx-4 py-2 rounded-md hover:bg-indigo-700 hover:text-white ">
-                    Sign Up
-                </button>
+                
             </ul>
 
         </nav>

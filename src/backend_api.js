@@ -66,7 +66,6 @@ class BackendApi {
         let res = await this.request(`users/friends/${userId}`);
         return res;
     }
-
     //**Decline Friend Request */
     static async deleteFriendRequest(reqId){
         let res = await this.request(`users/request/${reqId}`, {}, 'delete');
@@ -74,21 +73,17 @@ class BackendApi {
     }
     
 
-
     //             GAME METHODS
     //**Updates EXp and LVL after a game */
     static async addExp(username, exp){
         let res = await this.request(`users/update/exp/${username}/${exp}`, {}, 'patch');
         return res;
     }
-
     //**Updates game count and high score */
     static async endGameStatUpdate(username, score){
         let res = await this.request(`users/update/${username}/${score}`, {}, 'patch');
         return res;
     }
-
-
 
 
 
@@ -101,9 +96,8 @@ class BackendApi {
 
     /**Register new user */
     static async register(userData){
-        let res = await this.request(`auth/register`, userData, 'post');
-        return res;
-    
+            let res = await this.request(`auth/register`, userData, 'post');
+            return res;
         }
 
 }

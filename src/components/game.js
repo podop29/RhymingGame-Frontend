@@ -4,7 +4,7 @@ import RhymingApi from '../rhymingApi';
 
 import DifficultyBtn from './difficultyBtn';
 
-function Game({time, difficultyParam}) {
+function Game({time, difficultyParam, username}) {
 
     //state for timer
     const [timer, setTimer] = useState(time);
@@ -100,6 +100,11 @@ function Game({time, difficultyParam}) {
     //Function for ending the game when the timer goes to 0
     const endGame = () =>{
         setGameOver(true);
+        //If a user is playing the game, update their stats
+        if(username){
+            BackendApi.endGameStatUpdate(username, gameScore)
+            BackendApi.addExp(username, Math.floor(gameScore / 40))
+        }
     }
     //UseEffect stops timer at 0 and ends game
     useEffect(()=>{

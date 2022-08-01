@@ -5,7 +5,6 @@ const BASE_URL = `https://api.datamuse.com/`
 
 class RhymingApi{
 
-
     static async request(endpoint){
         const url = `${BASE_URL}${endpoint}`
         try {

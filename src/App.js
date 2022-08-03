@@ -1,5 +1,4 @@
 import BackendApi from "./backend_api";
-import RhymingApi from './rhymingApi';
 import { BrowserRouter, Route, Routes  } from "react-router-dom";
 import {useState, useEffect} from 'react';
 
@@ -9,6 +8,7 @@ import NavBar from './components/navbar';
 import Login from "./components/login";
 import Register from "./components/register";
 import Profile from "./components/profile";
+import Friends from "./components/friends";
 import React from "react";
 
 
@@ -52,13 +52,16 @@ const logout = () =>{
         <Routes>
           <Route exact path='/' element={<Home token={token}/>}/>
 
-          <Route exact path='/practice-game' element={<Game time={10} difficultyParam={null} username={username}/>}/>
+          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username}/>}/>
 
           <Route exact path='/login' element={<Login login={handleLogin}/>}/>
 
           <Route exact path='/register' element={<Register login={handleLogin}/>}/>
 
-          <Route  path={`/profile/${username}`} element={<Profile username={username}/>}/>
+          <Route  path={`/profile/:username`} element={<Profile currUsername={username}/>}/>
+
+          <Route  path={`/profile/:username/friends`} element={<Friends currUsername={username}/>}/>
+
 
 
 

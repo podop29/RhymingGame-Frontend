@@ -64,7 +64,7 @@ class BackendApi {
     //**SEE friends list */
     static async seeFriendsList(userId){
         let res = await this.request(`users/friends/${userId}`);
-        return res;
+        return res.friends;
     }
     //**Decline Friend Request */
     static async deleteFriendRequest(reqId){

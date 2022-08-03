@@ -1,27 +1,35 @@
 import {useState, useEffect} from 'react';
 import BackendApi from '../backend_api';
 import userPic from '../pics/user.png'
+import {useParams} from 'react-router-dom'
 
 
-function Profile({username}) {
+function Profile({currUsername}) {
+    const {username} = useParams()
 
     //state holds user object
     const [user, setUser] = useState({});
     const [progress, setProgress] = useState("w-0")
+    //hold list of friends
+    const [friends, setFriends] = useState([])
 
     //on initial render, call backendapi to get user object
     useEffect(()=>{
         const asyncFunc = async() =>{
-            
             setUser(await BackendApi.getUser(username))
         }
         asyncFunc()
-  
+        
     },[])
     //Updated progress bar
     useEffect(()=>{
         progressBrHelper()
-
+        const func = async() => {
+            if(user.userid !== undefined){
+                setFriends(await BackendApi.seeFriendsList(user.userid))
+            }
+        }
+        func()
     },[user])
 
     //Helper function that sets with attribute of the progress bars
@@ -48,17 +56,25 @@ function Profile({username}) {
         <span className='flex flex-row justify-evenly '>
             <img className='block h-24 lg:h-28  xl:h-36 ml-4 mb-2 ' src={user.img_url || userPic} />
 
-            <ul className=' md:text-2xl xl:text-4xl content-center'>
+            <ul className=' md:text-2xl xl:text-4xl my-auto'>
                 <li>Games Played: {user.games_played}</li>
                 <li>High Score: {user.high_score}</li>
-                <li>Games Played: {user.games_played}</li>
+                <li>Friends: <a className='underline text-blue-400' href={`${user.username}/friends`}>{friends.length}</a></li>
+
             </ul>
+
+            
         </span>
+
+        
+
+
+
         <span className='flex flex-col justify-evenly my-2 '>
-            <h1>Level {user.level}</h1>
-            <div className="mb-1 text-base font-medium dark:text-white">Level Progress: {user.exp} Xp</div>
-            <div className="w-8/12 bg-gray-200 rounded-full h-1.5 mb-4 mx-auto">
-            <div className={`bg-green-500  h-1.5 rounded-ful rounded  ${progress}`}></div>
+            <h1 className='text-3xl'>Level {user.level}</h1>
+            <div className="mb-1 text-xl font-medium ">Level Progress: {user.exp} Xp</div>
+            <div className="w-8/12 bg-gray-200 rounded-full h-3 mb-4 mx-auto">
+            <div className={`bg-green-500  h-3 rounded-full   ${progress}`}></div>
        </div>
             
         </span>

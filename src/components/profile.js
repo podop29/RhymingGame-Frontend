@@ -9,7 +9,7 @@ function Profile({currUsername}) {
 
     //state holds user object
     const [user, setUser] = useState({});
-    const [progress, setProgress] = useState("w-0")
+    const [progress, setProgress] = useState(`w-0`)
     //hold list of friends
     const [friends, setFriends] = useState([])
     //holds list of friend requests
@@ -94,9 +94,9 @@ function Profile({currUsername}) {
 
         <span className='flex flex-col justify-evenly my-2 '>
             <h1 className='text-3xl'>Level {user.level}</h1>
-            <div className="mb-1 text-xl font-medium ">{user.exp} / {100 * parseFloat(`1.${user.level}`)} Xp</div>
+            <div className="mb-1 text-xl font-medium ">{user.exp} / {parseInt(100 * parseFloat(`1.${user.level}`))} Xp</div>
             <div className="w-8/12 bg-gray-200 rounded-full h-3 mb-4 mx-auto">
-                <div className={`bg-green-500  h-3 rounded-full   ${progress}`}></div>
+                <div className={`bg-green-500  h-3 rounded-full ${progress}`}></div>
             </div>
         </span>
 

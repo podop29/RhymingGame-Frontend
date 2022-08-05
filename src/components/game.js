@@ -4,7 +4,7 @@ import RhymingApi from '../rhymingApi';
 
 import DifficultyBtn from './difficultyBtn';
 
-function Game({time, difficultyParam, username}) {
+function Game({time, difficultyParam, username, practice}) {
 
     //state for timer
     const [timer, setTimer] = useState(time);
@@ -101,7 +101,7 @@ function Game({time, difficultyParam, username}) {
     const endGame = () =>{
         setGameOver(true);
         //If a user is playing the game, update their stats
-        if(username){
+        if(username && !practice){
             BackendApi.endGameStatUpdate(username, gameScore)
             BackendApi.addExp(username, Math.floor(gameScore / 40))
         }
@@ -140,7 +140,7 @@ function Game({time, difficultyParam, username}) {
     }
 
     return(
-    <div className='container flex flex-row w-full h-4/6 mx-auto mt-32 md:w-7/12 justify-center bg-slate-100
+    <div className='container flex flex-row w-full h-4/6 mx-auto mt-32 md:w-7/12 justify-center p-8 bg-slate-100
      shadow-lg shadow-indigo-300 rounded-3xl
     '>
         {!gameOver ? 
@@ -151,14 +151,14 @@ function Game({time, difficultyParam, username}) {
                 <h1 className='font-semibold text-4xl font-mono text-gray-500 top-40 -ml-20  absolute' >Time:{timer}</h1>
                 <h1 className='font-semibold text-4xl font-mono text-gray-500 top-48 -ml-20 absolute' >Score:{gameScore}
                  <span
-                  className={`text-green-500 ${isScoreVisible}`}>
+                  className={`text-green-500 text-xl sm:text-3xl ${isScoreVisible}`}>
                     {correctWords.length >= 1 ? ` + ${Math.floor(correctWords[correctWords.length - 1].score / 10)}`  : `+ 0` }
                  </span>
                 </h1>
             </span>
 
 
-            <h2 className='text-center font-mono text-zinc-400 text-6xl '>{randomWords[wordIdx]}</h2>
+            <h2 className='text-center font-mono text-zinc-400 my-3 text-6xl '>{randomWords[wordIdx]}</h2>
 
             <form className='w-3/4 mx-12 md:mx-0 md:w-full md:max-w-sm'>
                 <div className='flex items-center border-b border-zinc-700 py-2'>
@@ -172,7 +172,7 @@ function Game({time, difficultyParam, username}) {
                     
                 </div>
             </form>
-            <div className='flex w-10/12  h-full break-word border rounded-3xl mb-6 bg-gray-100 p-3'>
+            <div className='flex w-10/12  h-20 break-word border rounded-3xl my-3 bg-gray-100 p-3'>
             <ul>
                 {correctWords.map((w)=>{
                     return <li className='font-mono inline-block text-2xl mx-2 font-semibold text-green-500'>{w.word}</li>

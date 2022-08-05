@@ -36,11 +36,11 @@ function NavBar({token, logout, username}) {
                 <li className="mx-4 my-6 md:my-0">
                     <a href="/" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Home</a>
                 </li>
-                <li className="mx-4 my-6 md:my-0">
-                    <a href="/practice-game" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Practice Game</a>
-                </li>
                 {token ?
                 <>
+                <li className="mx-4 my-6 md:my-0">
+                    <a href="/game" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Play a Game</a>
+                </li>
                 <li className="mx-4 my-6 md:my-0 ">
                     <a href={`/profile/${username}`} className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Profile</a>
                 </li>
@@ -50,6 +50,9 @@ function NavBar({token, logout, username}) {
                 </>
                 : 
                 <>
+                <li className="mx-4 my-6 md:my-0">
+                    <a href="/practice-game" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Practice Game</a>
+                </li>
                 <li className="mx-4 my-6 md:my-0 ">
                     <a href="/login" className="text-xl text-white hover:text-teal duration-500 cursor-pointer">Login</a>
                 </li>

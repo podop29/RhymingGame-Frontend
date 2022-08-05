@@ -5,7 +5,7 @@ function DifficultyBtn({handleDifficulty}) {
 
     return(
    
-        <div className='flex flex-col mt-32 md:flex-row md:my-44 '>
+        <div className='flex flex-col my-16 md:flex-row md:my-44 '>
             <button onClick={event => handleDifficulty(1)}
              className='bg-bud-green my-4 md:w-1/3 mx-3 px-10 py-3 xl:h-28  xl:mx-6 xl:px-20 shadow-lg rounded hover:bg-green-600 duration-300 
              font-semibold'>Easy</button>

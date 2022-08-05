@@ -8,6 +8,7 @@ import userPic from '../pics/user.png'
 const SearchFriends = ({allUsers,user, friends}) =>{
 
     const [filteredUsers, setFilteredUsers] = useState([])
+    
 
 
     const [formData, setFormData] = useState("")
@@ -25,7 +26,8 @@ const SearchFriends = ({allUsers,user, friends}) =>{
             allUsers.filter((user) =>user.username.includes(formData.value)).slice(0, 4))
     }
 
-    const sendFriendRequest = async(id2) =>{
+    const sendFriendRequest = async(e,id2) =>{
+        e.target.classList.add('hidden')
         await BackendApi.sendFriendRequest(user.userid, id2)
 
     }
@@ -48,7 +50,7 @@ return(
                          <img className=' h-10 sm:h-12 sm:ml-4 my-auto ' src={f.img_url || userPic} />
                         <a href={`/profile/${f.username}`}><h1 className='sm:ml-2 my-auto text-3xl mx-1 sm:mx-4 underline '>{f.username}</h1></a>
 
-                        <button onClick={()=>sendFriendRequest(f.userid)} className='bg-green-400 text-2xl ml-auto text-white '> + </button>
+                        <button onClick={(e)=>sendFriendRequest(e,f.userid)} className='bg-green-400 text-2xl ml-auto text-white '> + </button>
                         
                     </div>
                     </>

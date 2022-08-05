@@ -9,6 +9,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Profile from "./components/profile";
 import Friends from "./components/friends";
+import GamePage from "./components/gamePage";
 import React from "react";
 
 
@@ -22,7 +23,7 @@ const [username, setUsername] = useState(localStorage.getItem('username'))
 const handleLogin = (userData) =>{
   BackendApi.login(userData).then((json)=>{
     setToken(json.token)
-    setUsername(json.username)
+    setUsername(userData.username)
 
     BackendApi.token = token;
     localStorage.setItem('token', json.token);
@@ -41,7 +42,7 @@ const logout = () =>{
 }
 
   return (
-    <div className="w-screen h-screen mt-0 p-0 absolute bg-slate-200 ">
+    <div className="w-screen min-h-full mt-0 p-0 absolute bg-slate-200 ">
       
       
 
@@ -52,7 +53,12 @@ const logout = () =>{
         <Routes>
           <Route exact path='/' element={<Home token={token}/>}/>
 
-          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username}/>}/>
+          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username} practice={true}/>}/>
+
+          <Route exact path='/play' element={<Game time={60} difficultyParam={null} username={username} practice={false}/>}/>
+
+          <Route exact path='/game' element={<GamePage username={username}/>}/>
+
 
           <Route exact path='/login' element={<Login login={handleLogin}/>}/>
 

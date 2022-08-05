@@ -58,7 +58,7 @@ class BackendApi {
     //**See friend requests */
     static async seeFriendRequest(userId){
         let res = await this.request(`users/request/${userId}`);
-        return res;
+        return res.requests;
     }
 
     //**SEE friends list */

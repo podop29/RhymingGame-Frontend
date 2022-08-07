@@ -1,4 +1,5 @@
 import notes from "../pics/notes.png"
+import clock from "../pics/clock.png"
 import hamburger from "../pics/icons8-hamburger-64.png"
 import {useState} from 'react'
  
@@ -19,9 +20,10 @@ function NavBar({token, logout, username}) {
         <nav className="p-5 absolute top-0 left-0 w-screen bg-indigo-600
          shadow md:flex md:items-center md:justify-between">
             <div className="flex justify-between items-center">
-                <span className="text-2xl text-white font-mono cursor-pointer">
-                    <img src={notes} className="h-8 inline mr-2"></img>
-                    Rhyme Time
+                <span className="text-2xl text-white font-mono cursor-pointer sm:ml-4">
+                    Rhyme
+                    <img src={clock} className="h-8 inline mx-2"></img>
+                     Time
                 </span>
                 <span className="text-3xl cursor-pointer md:hidden block">
                     {openMenu ? <h1 className=" inline mr-2" onClick={()=>handleMenu()}>X</h1>

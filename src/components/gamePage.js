@@ -20,7 +20,7 @@ function GamePage({username}) {
                 <h1 className='text-2xl'>Quick games</h1>
                 <div className='bg-white  rounded-b-lg'>
                 <h1 className='w-3/5 mx-auto h-24'>
-                        Play a quick, 30 second game that will effect you stats
+                        Play a quick, 60 second game that will effect you stats
                     </h1>
                     <a href='/play'>
                         <button className='bg-violet-500 px-5 rounded-lg my-2 text-white hover:bg-violet-600 duration-500'>Play</button>

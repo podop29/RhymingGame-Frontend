@@ -53,13 +53,13 @@ const Friends = ({currUsername}) =>{
     }
 
 return(
-    <div className='w-5/6 md:w-6/12 mt-28 mx-auto bg-white text-center shadow-lg rounded-lg items-center pb-2'>
+    <div className='w-5/6 md:w-4/12 mt-28 mx-auto bg-white text-center shadow-lg rounded-lg items-center pb-2'>
         <span className='inline-block mx-auto w-full '>
         <h1 className='text-4xl font-semibold mx-auto mb-4 ml-auto my-auto'>{username}'s Friends</h1>
             {/* If user is viewing their own profile, show add friends button */}
             {username === currUsername ? 
             <button onClick={()=> setShowSearch((showSearch)=>!showSearch)}
-             className='text-sm mx-auto bg-green-500 text-white rounded-xl p-2 h-14 mb-4 sm:h-10 my-auto'>Add Friends</button>
+             className='text-md mx-auto bg-green-500 text-white rounded-lg h-10  mb-4 sm:h-8 sm:w-3/12 my-auto'>Add Friends</button>
             : null}
         </span>
         {/*Search for friends*/}
@@ -73,8 +73,8 @@ return(
             :
             friends.map((f)=>{
                 return(
-                <FriendsBanner img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} level={f.level} removeFriend={removeFriend}
-                reqId={f.id} friends={friends}/>
+                <FriendsBanner img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} removeFriend={removeFriend}
+                reqId={f.id}/>
                 )
             })
             }

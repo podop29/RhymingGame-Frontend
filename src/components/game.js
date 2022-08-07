@@ -1,10 +1,11 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import BackendApi from "../backend_api";
 import RhymingApi from '../rhymingApi';
 
 import DifficultyBtn from './difficultyBtn';
 
 function Game({time, difficultyParam, username, practice}) {
+    const textInput = useRef(null)
 
     //state for timer
     const [timer, setTimer] = useState(time);
@@ -45,6 +46,7 @@ function Game({time, difficultyParam, username, practice}) {
 
     //UseEffect hook gets new rhyme words
     useEffect( ()=>{
+        textInput.current?.focus();
         async function update(){
             setRhymeWords(await RhymingApi.getRhymesForWord(randomWords[wordIdx]))
         }
@@ -140,8 +142,8 @@ function Game({time, difficultyParam, username, practice}) {
     }
 
     return(
-    <div className='container flex flex-row w-full h-4/6 mx-auto mt-32 md:w-7/12 justify-center p-8 bg-slate-100
-     shadow-lg shadow-indigo-300 rounded-3xl
+    <div className='container flex flex-row w-full h-4/6 mx-auto mt-28 md:w-7/12 justify-center p-8 bg-slate-100
+     shadow-lg shadow-indigo-300 rounded-3xl 
     '>
         {!gameOver ? 
        <>
@@ -162,7 +164,7 @@ function Game({time, difficultyParam, username, practice}) {
 
             <form className='w-3/4 mx-12 md:mx-0 md:w-full md:max-w-sm'>
                 <div className='flex items-center border-b border-zinc-700 py-2'>
-                    <input value={formData} onChange={(e)=> setFormData(e.target.value)} className='appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder="Rhymes with" aria-label="Full name"></input>
+                    <input autoFocus ref={textInput} value={formData} onChange={(e)=> setFormData(e.target.value)} className='appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder="Rhymes with" aria-label="Full name"></input>
                     <button onClick={(e)=>checkIfWordIncluded(e,formData)} className='flex-shrink-0 bg-white hover:bg-green-500 border-gray-400 hover:border-zinc-700 text-sm text-gray-800 py-1 px-2 shadow rounded border-2 duration-300 mr-1'>
                         Submit
                     </button>

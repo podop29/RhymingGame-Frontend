@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react'
 import BackendApi from "../backend_api";
 import FriendsBanner from './friendBanner';
 import {useParams} from 'react-router-dom'
-import userPic from '../pics/user.png'
 import SearchFriends from './searchFriends';
 
 
@@ -74,7 +73,7 @@ return(
             :
             friends.map((f)=>{
                 return(
-                <FriendsBanner img_url={f.img_url} username={f.username} level={f.level} removeFriend={removeFriend}
+                <FriendsBanner img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} level={f.level} removeFriend={removeFriend}
                 reqId={f.id} friends={friends}/>
                 )
             })

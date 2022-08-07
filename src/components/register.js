@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom"
 import BackendApi from '../backend_api';
 
@@ -15,6 +15,20 @@ function Register({login}) {
 
   //state for catching and displaying errors
   const [error, setError] = useState([]);
+  const [cleanError, setCleanError] = useState([]);
+
+  //Returns a clean error code to display
+  useEffect(()=>{
+    if(error.length !== 0){
+      if(error[0][0] === 'i'){
+        setCleanError(error[0].slice(9))
+      }
+      else {
+        setCleanError(error[0])
+      }
+    }
+  },[error])
+
 
 
 //Function for handling registering new users
@@ -26,7 +40,6 @@ const register = (userData) =>{
     login(user)
     navigate(`/`)
   }).catch (async (e) => {
-
     await setStateAsync(e)
   })
 }
@@ -56,6 +69,9 @@ const setStateAsync = async(state) =>{
       }
 
 
+   
+
+
       
 
   return (
@@ -72,7 +88,7 @@ const setStateAsync = async(state) =>{
     <span className='mb-4 mx-auto'>
         <label  className='mt-2 mr-5' htmlFor="password">Password </label>
         <input className='bg-slate-200 rounded border-black border w-2/3 text-gray-700 mr-3 py-1 px-2'
-        type="text" name="password" value={formData.password} onChange={handleChange}/>
+        type="password" name="password" value={formData.password} onChange={handleChange}/>
     </span>
     <span className='mb-4 mx-auto '>
         <label  className='mt-2 mr-5 block' htmlFor="email">Email</label>
@@ -80,7 +96,7 @@ const setStateAsync = async(state) =>{
         type="text" name="email" value={formData.email} onChange={handleChange}/>
     </span>
 
-    {error ? <p className='text-red-600'>{error}</p> : null}
+    {error ? <p className='text-red-600'>{cleanError}</p> : null}
     
     <button className='w-1/3 md:w-2/6 mx-auto mb-5 bg-violet-600  mt-2 py-1 rounded text-white text-center
      hover:bg-violet-700 duration-300' onClick={handleSubmit}>Sign Up</button>

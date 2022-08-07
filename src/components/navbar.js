@@ -16,7 +16,8 @@ function NavBar({token, logout, username}) {
         setOpenMenu(openMenu => !openMenu)
     }
     return(
-        <nav className="p-5 absolute top-0 left-0 w-screen bg-indigo-600 shadow md:flex md:items-center md:justify-between">
+        <nav className="p-5 absolute top-0 left-0 w-screen bg-indigo-600
+         shadow md:flex md:items-center md:justify-between">
             <div className="flex justify-between items-center">
                 <span className="text-2xl text-white font-mono cursor-pointer">
                     <img src={notes} className="h-8 inline mr-2"></img>

@@ -85,6 +85,36 @@ class BackendApi {
         return res;
     }
 
+    //**Send game request */
+    static async sendGameRequest(user1,user2){
+        let res = await this.request(`game/request/${user1}/${user2}`, {}, 'post');
+        return res;
+    } 
+
+     //**Accept Game request */
+     static async acceptGameRequest(reqId){
+        let res = await this.request(`game/request/${reqId}`, {}, 'post')
+        return res;
+    }
+
+     //**See game requests */
+     static async seeGameRequest(userId){
+        let res = await this.request(`game/request/${userId}`);
+        return res.requests;
+    }
+
+    //**Decline Game Request */
+    static async declineGameRequest(reqId){
+        let res = await this.request(`game/request/${reqId}`, {}, 'delete');
+        return res;
+    }
+
+    static async endOfRoundUpdate(gameId, score){
+        let res = await this.request(`game/update/${gameId}/${score}`, {}, 'patch');
+        return res;
+
+    }
+
 
 
     //            LOGIN and register
@@ -99,6 +129,7 @@ class BackendApi {
             let res = await this.request(`auth/register`, userData, 'post');
             return res;
         }
+        
 
 }
 

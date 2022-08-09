@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import BackendApi from '../backend_api';
 import userPic from '../pics/user.png'
 import {useParams} from 'react-router-dom'
+import GameBanner from './gameBanner';
 
 
 function Profile({currUsername}) {
@@ -14,6 +15,8 @@ function Profile({currUsername}) {
     const [friends, setFriends] = useState([])
     //holds list of friend requests
     const [friendRequests, setFriendRequests] = useState([])
+
+    const [games, setGames] = useState([])
 
   
 
@@ -34,6 +37,7 @@ function Profile({currUsername}) {
             if(user.userid !== undefined){
                 setFriends(await BackendApi.seeFriendsList(user.userid))
                 setFriendRequests(await BackendApi.seeFriendRequest(user.userid))
+                setGames(await BackendApi.seeGameRequest(user.userid))
             }
         }
         func()
@@ -64,6 +68,11 @@ function Profile({currUsername}) {
         await BackendApi.deleteFriendRequest(reqId)
         setFriends(await BackendApi.seeFriendsList(user.userid))
         setFriendRequests(await BackendApi.seeFriendRequest(user.userid))
+    }
+
+    const acceptGameRequest = async(reqId) =>{
+        await BackendApi.acceptGameRequest(reqId)
+        setGames(await BackendApi.seeGameRequest(user.userid))
     }
 
   return (
@@ -101,6 +110,32 @@ function Profile({currUsername}) {
         </span>
 
         <div></div>
+
+    </div>
+
+    <div className='mx-auto w-4/6 sm:w-2/6 text-center'>
+        <h1 className='text-2xl'>Games</h1>
+    { currUsername !== username ? null: 
+         games.length === 0 ? <h1>No current games</h1>:
+
+        <div>
+            {games.map((g)=>{
+                return(
+                <GameBanner id={g.id} username1={g.username1} username2={g.username2} currUsername={currUsername}
+                user1_id={g.user1_id} user2_id={g.user2_id}
+                user1_score={g.user1_score} user2_score={g.user2_score}
+                accepted={g.accepted}
+                acceptGameRequest={acceptGameRequest}
+                round={g.round_num}
+                    />
+                )
+
+            })}
+
+
+        </div>
+    }
+
 
     </div>
 

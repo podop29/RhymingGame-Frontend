@@ -33,7 +33,7 @@ function GamePage({username}) {
                 <h1 className='w-3/5 mx-auto h-24'>
                         Challenge a friend to a 1v1 game
                     </h1>
-                    <a>
+                    <a href={`profile/${username}/friends`}>
                         <button className='bg-violet-500 px-5 rounded-lg my-2 text-white hover:bg-violet-600 duration-500'>Play</button>
                     </a>                
                 </div>

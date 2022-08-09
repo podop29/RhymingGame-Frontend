@@ -52,6 +52,12 @@ const Friends = ({currUsername}) =>{
 
     }
 
+    //Sends a user a request to play
+    const sendGameRequest = async(e,user2_id) =>{
+        e.preventDefault()
+        await BackendApi.sendGameRequest(user.userid, user2_id)
+    }
+
 return(
     <div className='w-5/6 md:w-4/12 mt-28 mx-auto bg-white text-center shadow-lg rounded-lg items-center pb-2'>
         <span className='inline-block mx-auto w-full '>
@@ -74,7 +80,7 @@ return(
             friends.map((f)=>{
                 return(
                 <FriendsBanner img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} removeFriend={removeFriend}
-                reqId={f.id}/>
+                reqId={f.id} id={f.userid} sendGameRequest={sendGameRequest}/>
                 )
             })
             }

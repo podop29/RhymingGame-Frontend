@@ -44,7 +44,7 @@ return(
     <>
         {!accepted ?
         <div className='sm:grid grid-rows-none grid-cols-3 w-full p-3 bg-white shadow-lg rounded my-2 '>
-            <h1 className='text-1xl text-left'>{username1} Vs {username2}</h1>
+            <h1 className='text-1xl text-center sm:text-left'>{username1} Vs {username2}</h1>
             <h1 className='text-1xl text-center'>Pending</h1>
             {currUsername === username1 ?  null       
             :
@@ -66,7 +66,9 @@ return(
             <h1>{currTurnName}s Turn</h1>
             }
             {currUsername === currTurnName || currTurn?
-            <button className='bg-green-500 text-white mx-auto w-2/3  rounded'>Play</button>
+            <a href={`/multiplayer/${id}`}>
+                <button className='bg-green-500 text-white mx-auto w-2/3  rounded'>Play</button>
+            </a>
             :
             null
             }

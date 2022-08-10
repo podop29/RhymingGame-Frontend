@@ -16,9 +16,22 @@ function Profile({currUsername}) {
     //holds list of friend requests
     const [friendRequests, setFriendRequests] = useState([])
 
+    //Holds list of all games user is playing
     const [games, setGames] = useState([])
+    //holds list of all games user has finish recently
+    const [finishedGames, setFinishedGames] = useState([])
 
-  
+    const [urlForm, setUrlForm] = useState(false)
+    const [formData, setFormData] = useState("")
+
+    //handles PFPurl form
+    const handleChange = (e) =>{
+        const {name,value} = e.target;
+        setFormData(formData =>({
+            ...formData,
+            [name]:value
+        }))
+    }
 
 
 
@@ -26,6 +39,8 @@ function Profile({currUsername}) {
     useEffect(()=>{
         const asyncFunc = async() =>{
             setUser(await BackendApi.getUser(username))
+
+
         }
         asyncFunc()
         
@@ -38,6 +53,7 @@ function Profile({currUsername}) {
                 setFriends(await BackendApi.seeFriendsList(user.userid))
                 setFriendRequests(await BackendApi.seeFriendRequest(user.userid))
                 setGames(await BackendApi.seeGameRequest(user.userid))
+                setFinishedGames(await BackendApi.seeFinishedGames(user.userid))
             }
         }
         func()
@@ -75,6 +91,11 @@ function Profile({currUsername}) {
         setGames(await BackendApi.seeGameRequest(user.userid))
     }
 
+    const handleSubmit = async(e) =>{
+        e.preventDefault()
+        await BackendApi.updateUserUrl(formData.value,user.userid)
+    }
+
   return (
     <>
     <div className='w-5/6 md:w-6/12 mt-28 mx-auto bg-white text-center shadow-lg rounded-lg items-center'>
@@ -83,8 +104,9 @@ function Profile({currUsername}) {
         <h1 className='block text-4xl font-semibold mb-6 '>{username}'s profile</h1>
 
         <span className='flex flex-row justify-evenly '>
-            <img className='block h-24 lg:h-28  xl:h-36 ml-4 mb-2 ' src={user.img_url || userPic} />
-
+            <span className='flex-col'>
+                <img className='block h-24 lg:h-28  xl:h-36 ml-4 mb-1 ' src={userPic} />
+            </span>
             <ul className=' md:text-2xl xl:text-4xl my-auto'>
                 <li>Games Played: {user.games_played}</li>
                 <li>High Score: {user.high_score}</li>
@@ -113,13 +135,14 @@ function Profile({currUsername}) {
 
     </div>
 
-    <div className='mx-auto w-4/6 sm:w-2/6 text-center'>
-        <h1 className='text-2xl'>Games</h1>
+    <div className='mx-auto w-4/6 md:w-4/6 lg:w-3/6 text-center'>
     { currUsername !== username ? null: 
-         games.length === 0 ? <h1>No current games</h1>:
-
+         games.length === 0 ?<h1>No current games</h1>:
+        <>
+         <h1 className='text-2xl'>Games</h1>  
         <div>
             {games.map((g)=>{
+                if(!g.game_over){
                 return(
                 <GameBanner id={g.id} username1={g.username1} username2={g.username2} currUsername={currUsername}
                 user1_id={g.user1_id} user2_id={g.user2_id}
@@ -130,10 +153,11 @@ function Profile({currUsername}) {
                     />
                 )
 
-            })}
+            }})}
 
 
         </div>
+        </>
     }
 
 
@@ -164,6 +188,28 @@ function Profile({currUsername}) {
             })} 
             
         </div>
+    }
+
+    {finishedGames.length !== 0
+    ?
+    <div className='w-5/6 md:w-4/6 mt-8 mx-auto text-center'>
+        <h1 className='text-2xl'>Recent Games</h1>
+        {finishedGames.map((g)=>{
+            return(
+                <div className='grid grid-rows-none grid-cols-2 w-2/3 p-3 bg-white shadow-lg rounded my-2 mx-auto '>
+                    <h1 className='text-left'>{g.username1} vs {g.username2}</h1>
+                    {g.user1_score > g.user2_score?
+                    <h1>{g.username1} Wins</h1>
+                    :
+                    <h1>{g.username2} Wins</h1>
+                    }
+                </div>
+            )
+
+        })}
+
+    </div>
+    :null
     }
 
 

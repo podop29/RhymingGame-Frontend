@@ -71,7 +71,13 @@ class BackendApi {
         let res = await this.request(`users/request/${reqId}`, {}, 'delete');
         return res;
     }
-    
+    //Updates userUrl
+    static async updateUserUrl(url, userId){
+        let res = await this.request(`users/update/url/${userId}/${url}`, {}, 'patch');
+        return res;
+    }
+
+
 
     //             GAME METHODS
     //**Updates EXp and LVL after a game */
@@ -83,6 +89,12 @@ class BackendApi {
     static async endGameStatUpdate(username, score){
         let res = await this.request(`users/update/${username}/${score}`, {}, 'patch');
         return res;
+    }
+
+    //**get game by id */
+    static async getGameById(gameId){
+        let res = await this.request(`game/request/game/${gameId}`, {}, 'get');
+        return res.requests;
     }
 
     //**Send game request */
@@ -100,6 +112,12 @@ class BackendApi {
      //**See game requests */
      static async seeGameRequest(userId){
         let res = await this.request(`game/request/${userId}`);
+        return res.requests;
+    }
+
+    //**See all finished game by user id */
+    static async seeFinishedGames(userId){
+        let res = await this.request(`game/request/finished/${userId}`);
         return res.requests;
     }
 

@@ -7,14 +7,14 @@ function Home({token}) {
     <>
         <div className="mt-28 pt-10 pb-10 flex w-11/12 lg:w-7/12 lg:h-2/4 xl:h-auto mx-auto justify-center bg-white grid-cols-2 grid-rows-1
         rounded-lg shadow-lg">
-            <div className="mx-2 w-2/3 border-r-2 xl:pr-16 xl:w-2/5  my-auto">
+            <div className="mx-2 w-2/3 border-r-2 xl:pr-16 xl:w-3/5  my-auto">
                 <h1 className="text-center mb-2 text-gray-500 text-xl md:text-3xl xl:text-4xl ">Learn how to Rhyme, in no Time!</h1>
                 <h2 className="text-center text-slate-500 text-lg xl:text-xl hidden md:flex">Create an account to play for free and
                 challenge your friends to see who's the better lyricist </h2>
             </div>
 
             {token ?
-            <div className="text-center mt-0  w-5/12 xl:pl-16 xl:pt-auto ">
+            <div className="text-center mt-0  w-5/12 xl:px-auto xl:pt-auto ">
                 <h1 className="text-center md:mt-5 text-slate-500 text-xl md:text-3xl xl:text-4xl pb-4">Play a game!</h1>
                 <a href="/game">
                     <button className="bg-indigo-500 md:mt-2 hover:bg-indigo-400 text-white xl:text-2xl rounded-md p-1 sm:py-2 px-4">Play</button>

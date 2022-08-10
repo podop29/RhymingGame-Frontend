@@ -11,6 +11,7 @@ import Profile from "./components/profile";
 import Friends from "./components/friends";
 import GamePage from "./components/gamePage";
 import React from "react";
+import MultiplayerGame from "./components/multiplayerGame";
 
 
 function App() {
@@ -53,11 +54,17 @@ const logout = () =>{
         <Routes>
           <Route exact path='/' element={<Home token={token}/>}/>
 
-          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username} practice={true}/>}/>
 
           <Route exact path='/play' element={<Game time={60} difficultyParam={null} username={username} practice={false}/>}/>
 
           <Route exact path='/game' element={<GamePage username={username}/>}/>
+
+          <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username} practice={true}/>}/>
+
+          <Route  path={'/multiplayer/:gameId'} element={<MultiplayerGame username={username}/>}/>
+          {/**<Game time={60} difficultyParam={2} username={username} practice={false} multiplayer={true}/>**/}
+          
+
 
 
           <Route exact path='/login' element={<Login login={handleLogin}/>}/>

@@ -4,7 +4,7 @@ import RhymingApi from '../rhymingApi';
 
 import DifficultyBtn from './difficultyBtn';
 
-function Game({time, difficultyParam, username, practice}) {
+function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) {
     const textInput = useRef(null)
 
     //state for timer
@@ -12,7 +12,7 @@ function Game({time, difficultyParam, username, practice}) {
     //state for checking if game is active or over
     const [gameOver, setGameOver] = useState(false);
     //State for timerId for clearing interval
-    const [timeId, setTimeId] = useState(0)
+    const [timeId, setTimeId] = useState()
 
 
     //Tracks chosen difficulty
@@ -29,18 +29,31 @@ function Game({time, difficultyParam, username, practice}) {
     const [gameScore, setGameScore] = useState(0);
     //Score pop up
     const [isScoreVisible, setIsScoreVisible] = useState("invisible")
-
-
     const [formData, setFormData] = useState("")
+
+
 
     //useEffect if difficultyParam is not null, call handle difficulty
     useEffect(()=>{
+        //handleTimer(time)
         const func = async() =>{
             if(difficultyParam !== null){
                 await handleDifficulty(difficultyParam)
              }
+
         }
         func();
+    },[])
+
+    //useEffect hook handles timer
+    useEffect(()=>{
+        const interval = setInterval(()=>{
+            setTimer(timer => timer - 1)
+        },1000)
+        setTimeId(interval)
+        return () => clearInterval(interval)
+
+        
     },[])
     
 
@@ -76,7 +89,7 @@ function Game({time, difficultyParam, username, practice}) {
         //Gets list of just words not objects
         const wordsArr = rhymeWords.map((w)=>{
             return w.word 
-        })
+        }) 
         //finds index of input in word arr, if idx is -1, word not found
         let idx = wordsArr.indexOf(input)
         if(idx !== -1){
@@ -93,19 +106,21 @@ function Game({time, difficultyParam, username, practice}) {
     }
 
 
-    //Function for starting the timer at the start of the game
-    const handleTimer = () =>{
-         setTimeId (setInterval(()=>{
-            setTimer(timer => timer - 1)
-        },1000))
-    }
     //Function for ending the game when the timer goes to 0
     const endGame = () =>{
         setGameOver(true);
         //If a user is playing the game, update their stats
-        if(username && !practice){
+        if(username && !practice && !multiplayer){
             BackendApi.endGameStatUpdate(username, gameScore)
             BackendApi.addExp(username, Math.floor(gameScore / 40))
+        }
+        else if(multiplayer){
+            //handles roundover/gameover after every game
+            BackendApi.endOfRoundUpdate(mpGame.id, gameScore)
+            if(mpGame.gameOver){
+            BackendApi.addExp(username, Math.floor(gameScore / 20))
+            }
+
         }
     }
     //UseEffect stops timer at 0 and ends game
@@ -127,9 +142,8 @@ function Game({time, difficultyParam, username, practice}) {
     //Handles setting difficulty and setting random words according to difficulty
     const handleDifficulty =async (diff) =>{
         setDifficulty(diff)
-        setRandomWords(await RhymingApi.getListOfRandomWords(40,diff))  
+        setRandomWords(await RhymingApi.getListOfRandomWords(60,diff))  
         setRhymeWords(await RhymingApi.getRhymesForWord(randomWords[wordIdx]))
-        handleTimer(time)
     }
   
 
@@ -142,21 +156,21 @@ function Game({time, difficultyParam, username, practice}) {
     }
 
     return(
-    <div className='container flex flex-row w-full h-4/6 mx-auto mt-28 md:w-7/12 justify-center p-8 bg-slate-100
+    <div className={`container flex flex-row w-10/12 h-4/6 mx-auto ${multiplayer ? "mt-0" : "mt-28"} md:w-7/12 justify-center p-8 bg-slate-100
      shadow-lg shadow-indigo-300 rounded-3xl 
-    '>
+    `}>
         {!gameOver ? 
        <>
         {difficulty ?
          <div className='grid grid-rows-4 gap-0 place-items-center'>
-            <span>
-                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-40 -ml-20  absolute' >Time:{timer}</h1>
-                <h1 className='font-semibold text-4xl font-mono text-gray-500 top-48 -ml-20 absolute' >Score:{gameScore}
+            <span className=' text-center'>
+                <h1 className='font-semibold text-4xl font-mono text-gray-500  mx-auto' >Time:{timer}</h1>
+                <h1 className='font-semibold text-4xl font-mono text-gray-500  mx-auto' >Score:{gameScore}</h1>
                  <span
                   className={`text-green-500 text-xl sm:text-3xl ${isScoreVisible}`}>
                     {correctWords.length >= 1 ? ` + ${Math.floor(correctWords[correctWords.length - 1].score / 10)}`  : `+ 0` }
                  </span>
-                </h1>
+                
             </span>
 
 
@@ -185,13 +199,32 @@ function Game({time, difficultyParam, username, practice}) {
         
 
          : <DifficultyBtn handleDifficulty={handleDifficulty}/>}
-</>
+        </>
          
-       : <div className='grid grid-rows-4 place-items-center'>
+        : 
+        multiplayer ?
+        <div className='grid grid-rows-4 place-items-center h-full py-6'>
+             <h1 className='font-semibold text-5xl font-mono text-gray-500 my-2'>Round over</h1>
+             <h1 className='font-semibold text-4xl font-mono text-gray-500 my-2'>
+                {mpGame.username1}'s score: {username === mpGame.username1? mpGame.user1_score + gameScore : mpGame.user1_score }</h1>
+            <h1 className='font-semibold text-4xl font-mono text-gray-500 my-2'>
+            {mpGame.username2}'s score: {username === mpGame.username2? mpGame.user2_score + gameScore : mpGame.user2_score }</h1>
+            <a href={`/profile/${username}`}>
+            <button className='bg-green-500 p-2 rounded-lg text-white mt-6'>Submit Score</button>
+            </a>
+        </div>
+        :
+        
+        <div className='grid grid-rows-4 place-items-center'>
             <h1 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Game Over</h1>
             <h2 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Your Final Score : {gameScore}</h2>
+            <a href={`/profile/${username}`}>
+            <button className='bg-green-500 p-2 rounded-lg text-white mt-6'>Submit Score</button>
+            </a>
          </div>
-       } 
+         
+         }
+       
 
 
     </div>

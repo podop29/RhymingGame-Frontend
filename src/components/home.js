@@ -35,7 +35,7 @@ function Home({token}) {
             <div>
                 <h1 className="text-3xl mb-2 text-gray-200 font-semibold">What is RhymeTime?</h1>
                 <p className="text-lg text-white mx-8 font-medium">RhymeTime is a student project created by Stevan Grubac.
-                    It is a Free website for anyone who wants to improve their rhyming ability's,
+                    It is a Free website for anyone who wants to improve their rhyming abilities,
                     or just compete against a friends to see whose the better lyricist.
                      Whether you are trying to improve your freestyle rapping skills
                     or want to write a poem, RhymeTime will make that experience fun.

@@ -158,7 +158,7 @@ function Profile({currUsername}) {
     { currUsername !== username ? null: 
          friendRequests.length === 0 ? null
         :
-        <div className='w-4/6 sm:w-2/6 mt-8 mx-auto text-center '>
+        <div className='w-4/6 sm:w-3/6 mt-8 mx-auto text-center '>
             {friendRequests.length === 1 ?
             <h1 className='text-2xl'>{`${friendRequests.length} Friend Request`}</h1>
             :
@@ -182,16 +182,16 @@ function Profile({currUsername}) {
 
     {finishedGames.length !== 0
     ?
-    <div className='w-5/6 md:w-4/6 mt-8 mx-auto text-center'>
+    <div className='w-5/6 sm:w-4/6 mt-8 mx-auto text-center'>
         <h1 className='text-2xl'>Recent Games</h1>
         {finishedGames.map((g)=>{
             return(
-                <div key={g.id} className='grid grid-rows-none grid-cols-2 w-full sm:w-2/3 p-3 bg-white shadow-lg rounded my-2 mx-auto '>
-                    <h1 className='text-left'>{g.username1} vs {g.username2}</h1>
+                <div key={g.id} className='grid grid-rows-none justify-items-center grid-cols-2 w-full sm:w-2/3 p-3 bg-white shadow-lg rounded my-2 mx-auto justify-end '>
+                    <h1 className='text-left ml-auto mr-4'>{g.username1} vs {g.username2}</h1>
                     {g.user1_score > g.user2_score?
-                    <h1>{g.username1} Wins</h1>
+                    <h1 className='mr-auto ml-4'>{g.username1} Wins</h1>
                     :
-                    <h1>{g.username2} Wins</h1>
+                    <h1 className='mr-auto ml-4'>{g.username2} Wins</h1>
                     }
                 </div>
             )

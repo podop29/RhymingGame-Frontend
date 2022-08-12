@@ -33,9 +33,12 @@ class RhymingApi{
     static async getListOfRandomWords(size, difficulty){
         let listSize = data.length
         let words = [];
+
+        //pick random words, if the syllable count of the word it higher or equal to difficulty number
+        //Add it to list of words, repeats until list reaches correct size.
        while(words.length !== size){
         let randWord = data[Math.floor(Math.random() * listSize)]
-        if(new_count(randWord) <= difficulty){
+        if(new_count(randWord) <= difficulty && new_count(randWord) >= difficulty ){
            words.push(randWord)
         }
        }

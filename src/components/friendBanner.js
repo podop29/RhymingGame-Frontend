@@ -18,7 +18,7 @@ return(
 
         {currUsername !== userParam ? null 
         :
-        <div className='flex-col'>
+        <div className='flex- mx-auto my-auto'>
         <button onClick={(e)=>{sendGameRequest(e, id)}}
         className='text-white my-auto  sm:text-sm sm:mt-auto ml-2 h-6  w-18 sm:w-20 bg-green-500 rounded-sm'>Challenge</button>
         <button onClick={(e)=>removeFriend(e, reqId)}

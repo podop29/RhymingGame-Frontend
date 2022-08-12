@@ -22,12 +22,11 @@ function MultiplayerGame({username}) {
   return (
 
     <div className='mt-20'>
-
-            <h1 className='mx-auto text-center text-3xl'>{game.username1} Vs {game.username2} </h1>
-            <h1 className='mx-auto text-center text-3xl'>Round {game.round_num}</h1>
-            <h1 className='mx-auto text-center text-3xl'>Your turn</h1>
-
-        <Game time={20} difficultyParam={2} username={username} practice={false} multiplayer={true} mpGame={game}/>
+          <div className='bg-white mx-auto w-3/4 sm:w-2/4 md:w-1/4 mb-2 shadow-lg shadow-indigo-200 rounded-2xl  '>
+            <h1 className='mx-auto text-center text-3xl text-gray-500'>{game.username1} Vs {game.username2} </h1>
+            <h1 className='mx-auto text-center text-3xl text-gray-500'>Round {game.round_num}</h1>
+          </div>
+        <Game time={60} difficultyParam={2} username={username} practice={false} multiplayer={true} mpGame={game}/>
 
     </div>
 

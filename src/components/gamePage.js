@@ -1,10 +1,7 @@
-import {useState} from 'react'
- 
-
 function GamePage({username}) {
    
     return(
-        <div className='mt-24 flex-col w-4/5 md:w-1/5 mx-auto  '>
+        <div className='mt-24 flex-col w-4/5 md:w-1/5 mx-auto my-auto'>
             <div className='text-center w-full mx-auto   lg:w-5/6  bg-gray-300 my-5 rounded-md'>
                 <h1 className='text-2xl'>Practice Round</h1>
                 <div className='bg-white rounded-b-lg'>

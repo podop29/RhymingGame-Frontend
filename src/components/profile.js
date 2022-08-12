@@ -21,19 +21,6 @@ function Profile({currUsername}) {
     //holds list of all games user has finish recently
     const [finishedGames, setFinishedGames] = useState([])
 
-    const [urlForm, setUrlForm] = useState(false)
-    const [formData, setFormData] = useState("")
-
-    //handles PFPurl form
-    const handleChange = (e) =>{
-        const {name,value} = e.target;
-        setFormData(formData =>({
-            ...formData,
-            [name]:value
-        }))
-    }
-
-
 
     //on initial render, call backendapi to get user object
     useEffect(()=>{
@@ -91,10 +78,12 @@ function Profile({currUsername}) {
         setGames(await BackendApi.seeGameRequest(user.userid))
     }
 
-    const handleSubmit = async(e) =>{
-        e.preventDefault()
-        await BackendApi.updateUserUrl(formData.value,user.userid)
+    const declineGameRequest = async(reqId) =>{
+        await BackendApi.declineGameRequest(reqId)
+        setGames(await BackendApi.seeGameRequest(user.userid))
     }
+
+
 
   return (
     <>
@@ -105,9 +94,9 @@ function Profile({currUsername}) {
 
         <span className='flex flex-row justify-evenly '>
             <span className='flex-col'>
-                <img className='block h-24 lg:h-28  xl:h-36 ml-4 mb-1 ' src={userPic} />
+                <img alt='Profile' className='block h-24 lg:h-28  xl:h-36 ml-4 mb-1 ' src={userPic} />
             </span>
-            <ul className=' md:text-2xl xl:text-4xl my-auto'>
+            <ul className='md:text-2xl xl:text-4xl my-auto text-left'>
                 <li>Games Played: {user.games_played}</li>
                 <li>High Score: {user.high_score}</li>
                 <li>Friends:
@@ -127,7 +116,7 @@ function Profile({currUsername}) {
             <h1 className='text-3xl'>Level {user.level}</h1>
             <div className="mb-1 text-xl font-medium ">{user.exp} / {parseInt(100 * parseFloat(`1.${user.level}`))} Xp</div>
             <div className="w-8/12 bg-gray-200 rounded-full h-3 mb-4 mx-auto">
-                <div className={`bg-green-500  h-3 rounded-full ${progress}`}></div>
+                <div className={`bg-green-500  ${progress}  h-3 rounded-full`}></div>
             </div>
         </span>
 
@@ -135,7 +124,7 @@ function Profile({currUsername}) {
 
     </div>
 
-    <div className='mx-auto w-4/6 md:w-4/6 lg:w-3/6 text-center'>
+    <div className='mx-auto w-4/6 md:w-3/6  text-center'>
     { currUsername !== username ? null: 
          games.length === 0 ?<h1>No current games</h1>:
         <>
@@ -144,11 +133,12 @@ function Profile({currUsername}) {
             {games.map((g)=>{
                 if(!g.game_over){
                 return(
-                <GameBanner id={g.id} username1={g.username1} username2={g.username2} currUsername={currUsername}
+                <GameBanner key={g.id} id={g.id} username1={g.username1} username2={g.username2} currUsername={currUsername}
                 user1_id={g.user1_id} user2_id={g.user2_id}
                 user1_score={g.user1_score} user2_score={g.user2_score}
                 accepted={g.accepted}
                 acceptGameRequest={acceptGameRequest}
+                declineGameRequest={declineGameRequest}
                 round={g.round_num}
                     />
                 )
@@ -176,8 +166,8 @@ function Profile({currUsername}) {
             }
             {friendRequests.map((fr)=>{
                 return(
-                    <div className='grid grid-rows-none grid-cols-3 w-full p-3 bg-white shadow-lg rounded my-2 '>
-                        <h1 className='text-1xl text-left w-1/3'>{fr.username}</h1>
+                    <div key={fr.id} className='grid grid-rows-none grid-cols-3 w-full p-3 bg-white shadow-lg rounded my-2 '>
+                        <h1 className='text-1xl text-center sm:text-left w-1/3'>{fr.username}</h1>
                         <button onClick={()=>acceptFriendRequest(fr.id)}
                          className='bg-green-500 text-white sm:w-full mr-2 rounded'>Accept</button>
                         <button onClick={()=>declineFriendRequest(fr.id)}
@@ -196,7 +186,7 @@ function Profile({currUsername}) {
         <h1 className='text-2xl'>Recent Games</h1>
         {finishedGames.map((g)=>{
             return(
-                <div className='grid grid-rows-none grid-cols-2 w-2/3 p-3 bg-white shadow-lg rounded my-2 mx-auto '>
+                <div key={g.id} className='grid grid-rows-none grid-cols-2 w-full sm:w-2/3 p-3 bg-white shadow-lg rounded my-2 mx-auto '>
                     <h1 className='text-left'>{g.username1} vs {g.username2}</h1>
                     {g.user1_score > g.user2_score?
                     <h1>{g.username1} Wins</h1>

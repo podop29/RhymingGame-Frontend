@@ -55,6 +55,7 @@ const Friends = ({currUsername}) =>{
     //Sends a user a request to play
     const sendGameRequest = async(e,user2_id) =>{
         e.preventDefault()
+        e.target.classList.add('hidden')
         await BackendApi.sendGameRequest(user.userid, user2_id)
     }
 
@@ -79,7 +80,7 @@ return(
             :
             friends.map((f)=>{
                 return(
-                <FriendsBanner img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} removeFriend={removeFriend}
+                <FriendsBanner key={f.id} img_url={f.img_url} username={f.username} userParam={username} currUsername={currUsername} removeFriend={removeFriend}
                 reqId={f.id} id={f.userid} sendGameRequest={sendGameRequest}/>
                 )
             })

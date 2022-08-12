@@ -191,7 +191,7 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
             <div className='flex w-10/12  h-20 break-word border rounded-3xl my-3 bg-gray-100 p-3'>
             <ul>
                 {correctWords.map((w)=>{
-                    return <li className='font-mono inline-block text-2xl mx-2 font-semibold text-green-500'>{w.word}</li>
+                    return <li key={w} className='font-mono inline-block text-2xl mx-2 font-semibold text-green-500'>{w.word}</li>
                 })}
             </ul>
             </div>

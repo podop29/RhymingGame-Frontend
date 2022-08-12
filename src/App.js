@@ -1,6 +1,6 @@
 import BackendApi from "./backend_api";
 import { BrowserRouter, Route, Routes  } from "react-router-dom";
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 import Game from './components/game'
 import Home from './components/home'
@@ -26,7 +26,7 @@ const handleLogin = (userData) =>{
     setToken(json.token)
     setUsername(userData.username)
 
-    BackendApi.token = token;
+    BackendApi.token = json.token;
     localStorage.setItem('token', json.token);
     localStorage.setItem('username', userData.username);
   }).catch(e=>{
@@ -43,7 +43,7 @@ const logout = () =>{
 }
 
   return (
-    <div className="w-screen min-h-full mt-0 p-0 absolute bg-slate-200 ">
+    <div className="w-full overflow-hidden min-h-full mt-0 p-0 absolute bg-slate-200 ">
       
       
 

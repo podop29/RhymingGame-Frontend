@@ -10,7 +10,7 @@ function Profile({currUsername}) {
 
     //state holds user object
     const [user, setUser] = useState({});
-    const [progress, setProgress] = useState(`w-0`)
+    const [progress, setProgress] = useState(0)
     //hold list of friends
     const [friends, setFriends] = useState([])
     //holds list of friend requests
@@ -46,17 +46,12 @@ function Profile({currUsername}) {
         func()
     },[user])
 
-    //Helper function that sets with attribute of the progress bars
+    //Helper function that sets width for progress bar
     const progressBrHelper = () =>{
         const xp = user.exp
         const maxXp = 100 * parseFloat(`1.${user.level}`)
-        let num =  (Math.floor((xp / maxXp) * 12)).toString();
-
-        if(num === '0'){
-        setProgress(`w-0`)
-        }else{
-            setProgress(`w-${num}/12`)
-        }
+        let percent = (Math.floor((xp/maxXp) * 100)) 
+        setProgress(percent)   
     }
 
     const acceptFriendRequest = async(reqId) =>{
@@ -115,12 +110,10 @@ function Profile({currUsername}) {
         <span className='flex flex-col justify-evenly my-2 '>
             <h1 className='text-3xl'>Level {user.level}</h1>
             <div className="mb-1 text-xl font-medium ">{user.exp} / {parseInt(100 * parseFloat(`1.${user.level}`))} Xp</div>
-            <div className="w-8/12 bg-gray-200 rounded-full h-3 mb-4 mx-auto">
-                <div className={`bg-green-500  ${progress}  h-3 rounded-full`}></div>
-            </div>
+                <div className="w-8/12 bg-gray-200 rounded-full h-3 mb-4 mx-auto">
+                    <div className="bg-green-500 h-3 rounded-full" style={{ width: `${progress}%`}}></div>
+                </div>
         </span>
-
-        <div></div>
 
     </div>
 

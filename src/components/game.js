@@ -86,6 +86,7 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
     //Will check if player input is included in rhymeWords
     const checkIfWordIncluded = (e,input) =>{
         e.preventDefault()
+        input = input.toLowerCase()
         //Gets list of just words not objects
         const wordsArr = rhymeWords.map((w)=>{
             return w.word 
@@ -156,7 +157,7 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
     }
 
     return(
-    <div className={`container flex flex-row w-10/12 h-4/6 mx-auto ${multiplayer ? "mt-0" : "mt-28"} md:w-7/12 justify-center p-8 bg-slate-100
+    <div className={` flex flex-row w-10/12 mx-auto ${multiplayer ? "mt-0" : "mt-28"} md:w-7/12 justify-center p-2 bg-slate-100
      shadow-lg shadow-indigo-300 rounded-3xl 
     `}>
         {!gameOver ? 
@@ -174,9 +175,9 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
             </span>
 
 
-            <h2 className='text-center font-mono text-zinc-400 my-3 text-6xl '>{randomWords[wordIdx]}</h2>
+            <h2 className='text-center font-mono text-zinc-400 text-6xl '>{randomWords[wordIdx]}</h2>
 
-            <form className='w-3/4 mx-12 md:mx-0 md:w-full md:max-w-sm'>
+            <form className='w-11/12 mx-12 md:mx-0 md:w-full md:max-w-sm'>
                 <div className='flex items-center border-b border-zinc-700 py-2'>
                     <input autoFocus ref={textInput} value={formData} onChange={(e)=> setFormData(e.target.value)} className='appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder="Rhymes with" aria-label="Full name"></input>
                     <button onClick={(e)=>checkIfWordIncluded(e,formData)} className='flex-shrink-0 bg-white hover:bg-green-500 border-gray-400 hover:border-zinc-700 text-sm text-gray-800 py-1 px-2 shadow rounded border-2 duration-300 mr-1'>
@@ -188,10 +189,10 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
                     
                 </div>
             </form>
-            <div className='flex w-10/12  h-20 break-word border rounded-3xl my-3 bg-gray-100 p-3'>
+            <div className='flex w-11/12  h-20 break-word rounded-3xl bg-gray-100'>
             <ul>
                 {correctWords.map((w)=>{
-                    return <li key={w} className='font-mono inline-block text-2xl mx-2 font-semibold text-green-500'>{w.word}</li>
+                    return <li key={w} className='font-mono inline-block text-xl mx-1 font-semibold text-green-500'>{w.word}</li>
                 })}
             </ul>
             </div>
@@ -218,7 +219,8 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
         <div className='grid grid-rows-4 place-items-center'>
             <h1 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Game Over</h1>
             <h2 className='font-semibold text-4xl font-mono text-gray-500 mt-10'>Your Final Score : {gameScore}</h2>
-            <a href={`/profile/${username}`}>
+            
+            <a  href={multiplayer ? `/profile/${username}`: `/` }>
             <button className='bg-green-500 p-2 rounded-lg text-white mt-6'>Submit Score</button>
             </a>
          </div>

@@ -46,7 +46,10 @@ return(
         <div className='sm:grid grid-rows-none grid-cols-3 w-full p-3 bg-white shadow-lg rounded my-2 '>
             <h1 className='text-1xl text-center sm:text-left'>{username1} Vs {username2}</h1>
             <h1 className='text-1xl text-center'>Pending</h1>
-            {currUsername === username1 ?  null       
+            
+            {currUsername === username1 ?  
+            <button onClick={()=>declineGameRequest(id)}
+            className='bg-red-500 text-white w-full mx-auto sm:w-5/12  rounded'>Forfeit</button>       
             :
             <div className="mr-2 w-full">
                 <button onClick={()=>acceptGameRequest(id)}

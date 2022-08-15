@@ -23,6 +23,7 @@ const Friends = ({currUsername}) =>{
 
 
     //on initial render, call backendapi to get user object
+    //sets logged in user, and all users
     useEffect(()=>{
         const asyncFunc = async() =>{
             setUser(await BackendApi.getUser(username))
@@ -33,7 +34,7 @@ const Friends = ({currUsername}) =>{
         
     },[])
 
-    //populates friend list
+    //populates friend list, if user is logged in
     useEffect(()=>{
         const func = async() => {
             if(user.userid !== undefined){
@@ -48,6 +49,7 @@ const Friends = ({currUsername}) =>{
     const removeFriend = async(e, id) =>{
         e.preventDefault();
         await BackendApi.deleteFriendRequest(id)
+        //Updates state after deleting friend
         setFriends(await BackendApi.seeFriendsList(user.userid))
 
     }

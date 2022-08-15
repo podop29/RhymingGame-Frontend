@@ -1,12 +1,7 @@
 import userPic from '../pics/user.png'
 
-
-
-
 const FriendsBanner = ({username, img_url, removeFriend, reqId, id, currUsername, userParam, sendGameRequest}) =>{
-
-
-    
+//renders info for friends
 return(
 
     <div className='bg-gray-200 w-10/12 sm:w-10/12 mx-auto rounded-md inline-flex p-3 mb-4 '>

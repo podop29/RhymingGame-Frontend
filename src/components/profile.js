@@ -22,17 +22,15 @@ function Profile({currUsername}) {
     const [finishedGames, setFinishedGames] = useState([])
 
 
-    //on initial render, call backendapi to get user object
+    //on initial render, call BackEndApi to get user object
     useEffect(()=>{
         const asyncFunc = async() =>{
             setUser(await BackendApi.getUser(username))
-
-
         }
-        asyncFunc()
-        
+        asyncFunc()    
     },[])
     //Updated progress bar
+    //sets friends, requests, games
     useEffect(()=>{
         progressBrHelper()
         const func = async() => {
@@ -47,6 +45,7 @@ function Profile({currUsername}) {
     },[user])
 
     //Helper function that sets width for progress bar
+    //gets percentage to fill up progress bar and sets the progress state
     const progressBrHelper = () =>{
         const xp = user.exp
         const maxXp = 100 * parseFloat(`1.${user.level}`)
@@ -54,6 +53,7 @@ function Profile({currUsername}) {
         setProgress(percent)   
     }
 
+    //accepts friend requests and updates friend requests state
     const acceptFriendRequest = async(reqId) =>{
         await BackendApi.acceptFriendRequest(reqId)
         setFriends(await BackendApi.seeFriendsList(user.userid))
@@ -61,18 +61,20 @@ function Profile({currUsername}) {
         
 
     }
-
+    //declines friend requests and updates friend requests state
     const declineFriendRequest = async(reqId) =>{
         await BackendApi.deleteFriendRequest(reqId)
         setFriends(await BackendApi.seeFriendsList(user.userid))
         setFriendRequests(await BackendApi.seeFriendRequest(user.userid))
     }
 
+    //Accept game requests and updates state
     const acceptGameRequest = async(reqId) =>{
         await BackendApi.acceptGameRequest(reqId)
         setGames(await BackendApi.seeGameRequest(user.userid))
     }
 
+    //declines game requests and updates state
     const declineGameRequest = async(reqId) =>{
         await BackendApi.declineGameRequest(reqId)
         setGames(await BackendApi.seeGameRequest(user.userid))

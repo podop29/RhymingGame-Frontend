@@ -22,10 +22,11 @@ const [username, setUsername] = useState(localStorage.getItem('username'))
 
 //Function that handles login logic
 const handleLogin = (userData) =>{
+  //Calls backend login method, sets token state and local storage
+  //Sets username state and local storage, Throws error if login method fails
   BackendApi.login(userData).then((json)=>{
     setToken(json.token)
     setUsername(userData.username)
-
     BackendApi.token = json.token;
     localStorage.setItem('token', json.token);
     localStorage.setItem('username', userData.username);
@@ -35,7 +36,7 @@ const handleLogin = (userData) =>{
 }
 
 
-
+//Logout method, clears local storage, sets token to null
 const logout = () =>{
   localStorage.clear();
   setToken(null);
@@ -44,9 +45,7 @@ const logout = () =>{
 
   return (
     <div className="w-full overflow-hidden min-h-full mt-0 p-0 absolute bg-slate-200 ">
-      
-      
-
+  
       <BrowserRouter>
       
       <NavBar token={token} logout={logout} username={username}/>
@@ -62,10 +61,6 @@ const logout = () =>{
           <Route exact path='/practice-game' element={<Game time={60} difficultyParam={null} username={username} practice={true}/>}/>
 
           <Route  path={'/multiplayer/:gameId'} element={<MultiplayerGame username={username}/>}/>
-          {/**<Game time={60} difficultyParam={2} username={username} practice={false} multiplayer={true}/>**/}
-          
-
-
 
           <Route exact path='/login' element={<Login login={handleLogin}/>}/>
 
@@ -74,10 +69,6 @@ const logout = () =>{
           <Route  path={`/profile/:username`} element={<Profile currUsername={username}/>}/>
 
           <Route  path={`/profile/:username/friends`} element={<Friends currUsername={username}/>}/>
-
-
-
-
 
         </Routes>
       

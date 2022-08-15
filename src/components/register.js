@@ -44,6 +44,7 @@ const register = (userData) =>{
   })
 }
 
+//Helper function helps await setState 
 const setStateAsync = async(state) =>{
     return new Promise((resolve)=>{
         setError(state, resolve)
@@ -58,6 +59,7 @@ const setStateAsync = async(state) =>{
     }))
     }
 
+    //Calls register, if error log it, else navigate to home page
     const handleSubmit = (e) =>{
         e.preventDefault()
         register(formData)
@@ -66,13 +68,7 @@ const setStateAsync = async(state) =>{
         }else{
             navigate(`/`)
         } 
-      }
-
-
-   
-
-
-      
+      }   
 
   return (
     <div className='w-5/6 md:w-2/6 mt-28 mx-auto bg-white text-center shadow-lg rounded-lg'>

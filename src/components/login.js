@@ -7,13 +7,12 @@ import BackendApi from "../backend_api"
 function Login({login}) {
     const navigate  = useNavigate()
 
-    
-
+  //Initial state of form data
   const INITIAL_STATE = {
     username:"",
     password:"",
   }
-
+  //state for holding form data
   const [formData, setFormData] = useState(INITIAL_STATE)
 
   //state for catching and displaying errors
@@ -29,6 +28,7 @@ function Login({login}) {
 
 const handleSubmit = async(e) =>{
   e.preventDefault()
+    //Tries to log in, if fails, logs error
     await BackendApi.login(formData).then((res)=>{
       login(formData)
       setFormData(INITIAL_STATE)
@@ -37,9 +37,6 @@ const handleSubmit = async(e) =>{
    .catch((e)=>{
       setError(e)
    })
- 
-
-  
 }
 
 

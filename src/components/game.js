@@ -52,8 +52,6 @@ function Game({time, difficultyParam, username, practice, multiplayer, mpGame}) 
         },1000)
         setTimeId(interval)
         return () => clearInterval(interval)
-
-        
     },[])
     
 

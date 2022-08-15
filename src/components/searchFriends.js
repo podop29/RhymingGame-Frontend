@@ -2,15 +2,10 @@ import {useState} from 'react'
 import BackendApi from "../backend_api";
 import userPic from '../pics/user.png'
 
-
-
-
 const SearchFriends = ({allUsers,user}) =>{
 
     const [filteredUsers, setFilteredUsers] = useState([])
     
-
-
     const [formData, setFormData] = useState("")
 
     const handleChange = (e) =>{
@@ -21,11 +16,14 @@ const SearchFriends = ({allUsers,user}) =>{
         }))
     }
     
-      const filterUsers = () =>{
+
+    //Filters all users based off text input data 
+    const filterUsers = () =>{
         setFilteredUsers(
             allUsers.filter((user) =>user.username.includes(formData.value)).slice(0, 4))
     }
 
+    //Sends friend request and hides button to send again
     const sendFriendRequest = async(e,id2) =>{
         e.target.classList.add('hidden')
         await BackendApi.sendFriendRequest(user.userid, id2)

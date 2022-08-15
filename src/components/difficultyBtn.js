@@ -1,8 +1,6 @@
 
 function DifficultyBtn({handleDifficulty}) {
-
-
-
+//Returns 3 difficulty buttons easy, medium, hard, and sets difficulty based on button clicked
     return(
    
         <div className='flex flex-col my-16 md:flex-row md:my-44 '>
